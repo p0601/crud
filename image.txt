@@ -1,0 +1,60 @@
+// add image in database
+
+<?php 
+include 'connection.php';
+$filename = $_FILES["img"]["name"];
+$tempname = $_FILES["img"]["tmp_name"];
+$folder = "./gallary/" . $filename;
+$insert = "INSERT INTO gallary (image) VALUES ('$filename')";
+$res = mysqli_query($con,$insert);
+    if (move_uploaded_file($tempname, $folder)) {
+	echo '<script>alert("Image is Added To Gallary")</script>';
+    echo '<script>window.location= "../showgallery.php"</script>';
+}
+
+?>
+
+fetch image from database
+<?php echo "<center><img src='gallary/".$row['image']."' height='100' width='100'/></center>"; ?>
+<br>
+
+
+update image 
+
+<?php 
+include 'connection.php';
+// if(isset($_POST['save'])){
+$id = $_REQUEST['id'];
+$filename = $_FILES["img"]["name"];
+$tempname = $_FILES["img"]["tmp_name"];
+// $folder = "./uploads/" . $filename;
+
+move_uploaded_file($tempname , "./gallary/$filename");
+
+
+$update = "UPDATE gallary SET  image='$filename' WHERE id='$id'";
+
+$res = mysqli_query($con, $update);
+if($res==1){
+ echo '<script>alert("Gallary is Updated")</script>';
+ echo '<script>window.location= "../showgallery.php"</script>';
+ }
+// }
+
+?>
+
+delte image 
+
+<?php
+include 'connection.php';
+
+$id = $_REQUEST['id'];
+$query = "DELETE FROM gallary WHERE id=$id";
+$res = mysqli_query($con, $query);
+ if($res==1){
+echo '<script>alert("Slider was Deleted")</script>';
+echo '<script>window.location= "../showgallery.php"</script>';
+ }
+
+?>
+
